@@ -1,0 +1,7 @@
+.gradle
+build
+google-traces
+gradle
+.idea
+*.pdf
+*.xz

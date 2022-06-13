@@ -8,7 +8,7 @@ Jobs são compostos de:
 Tasks são programas que rodam no Linux que rodam em uma única máquina, \
 independente do número de processos criados pelo programa.
 
-Collections são conjuntos de jobs ou tasks e Instances são unidades de jobs ou tasks.
+Collections são conjuntos de jobs ou tasks e Instances são unidades de tasks ou allocs.
 
 # Ordem hierárquica de objetos do Borg:
 
@@ -41,10 +41,10 @@ Collections são conjuntos de jobs ou tasks e Instances são unidades de jobs ou
 # Possíveis caminhos para resolver
 
 1. Analisar os campos `resource_requests` da tabela de instâncias
-2. Agrupar por `type` e fazer análises.
-3. Possível heurística: Ordenar pelo campo `time`, pegar o valor mínimo (tirando 0) e o máximo, tirar a diferença, calcular quantas horas isso equivale e criar
-   um map (long -> long) com essas tantas entradas. A partir disso, para cada entrada na tabela, calcular em qual das horas ela se encaixa
-   (acho que dá pra fazer com mod) e incrementar em um entrada do map que corresponde àquela hora.
-4. similar, só precisa entender como se diferencia uma entrada que é um job de uma que é uma task.
-5. ?
+2. Agrupar por tipos de prioridade (checar documento de traces para entender quais são os ranges) e fazer análises.
+3. Possível heurística: ordenar pelo campo `time`, pegar o valor mínimo (tirando 0) e o máximo, tirar a diferença, calcular quantas horas isso equivale e criar
+   um map (long -> long) com essas tantas entradas. A partir disso, para cada entrada na tabela, calcular em qual das horas ela se encaixa (dividir por
+   3600_000_000 microssegundos por hora e subtrair pela quantidade de horas do time inicial) e incrementar em um a entrada do map que corresponde àquela hora.
+5. similar, só que em cima da tabela de instances.
+6. Agrupar instancias por collection_id, ordenar por tempo e pegar a primeira entrada do tipo SUBMIT que aparece no grupo.
  

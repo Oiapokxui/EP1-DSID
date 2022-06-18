@@ -1,11 +1,15 @@
 package usp.each.dsid.ep1.model;
 
-import java.util.Optional;
+import java.io.Serializable;
+
+import org.apache.spark.api.java.Optional;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
-public class EventFactory {
+@Service
+public class EventFactory implements Serializable {
     private final CsvSchema.Builder baseSchema = CsvSchema.builder()
             .addColumn("time")
             .addColumn("type")

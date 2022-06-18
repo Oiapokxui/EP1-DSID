@@ -28,9 +28,13 @@ abstract class Event implements Serializable {
     @JsonProperty("collection_id")
     Double collectionId;
 
-    @Getter @Setter
+    @Getter
+    public PriorityType priority;
+
     @JsonProperty("priority")
-    int priority;
+    void priority(final int priority) {
+        this.priority = PriorityType.fromInteger(priority);
+    }
 
     @Override public boolean equals(final Object o) {
         if(this == o) {

@@ -1,4 +1,4 @@
-package usp.each.dsid.ep1.functions;
+package usp.each.dsid.ep1.function;
 
 import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;

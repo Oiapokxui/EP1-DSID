@@ -11,10 +11,10 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import scala.math.BigDecimal;
-import usp.each.dsid.ep1.functions.FilterOnlyPresentOptional;
-import usp.each.dsid.ep1.functions.GetObject;
-import usp.each.dsid.ep1.functions.MapCsvToCollection;
-import usp.each.dsid.ep1.functions.MapCsvToInstance;
+import usp.each.dsid.ep1.function.FilterOnlyPresentOptional;
+import usp.each.dsid.ep1.function.GetObject;
+import usp.each.dsid.ep1.function.MapCsvToCollection;
+import usp.each.dsid.ep1.function.MapCsvToInstance;
 import usp.each.dsid.ep1.model.Collection;
 import usp.each.dsid.ep1.model.EventFactory;
 import usp.each.dsid.ep1.model.Instance;

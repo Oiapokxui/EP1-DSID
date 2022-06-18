@@ -1,4 +1,4 @@
-package usp.each.dsid.ep1.beans;
+package usp.each.dsid.ep1.config;
 
 import static usp.each.dsid.ep1.utils.Constants.APP_NAME;
 import static usp.each.dsid.ep1.utils.Constants.MASTER_URL;

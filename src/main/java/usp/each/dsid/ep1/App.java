@@ -1,17 +1,18 @@
 package usp.each.dsid.ep1;
 
-import static usp.each.dsid.ep1.utils.Constants.COLLECTIONS_FILE_PATH;
 import static usp.each.dsid.ep1.utils.Constants.INSTANCES_FILE_PATH;
 
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import scala.math.BigDecimal;
+import usp.each.dsid.ep1.functions.FilterOnlyPresentOptional;
+import usp.each.dsid.ep1.functions.GetObject;
 import usp.each.dsid.ep1.functions.MapCsvToCollection;
 import usp.each.dsid.ep1.functions.MapCsvToInstance;
 import usp.each.dsid.ep1.model.Collection;
@@ -25,6 +26,14 @@ public class App implements CommandLineRunner {
 
     @Autowired MapCsvToInstance mapCsvToInstance;
 
+    @Autowired GetObject<Instance> getInstance;
+
+    @Autowired FilterOnlyPresentOptional<Instance> filterOnlyPresentInstances;
+
+    @Autowired GetObject<Collection> getCollection;
+
+    @Autowired FilterOnlyPresentOptional<Collection> filterOnlyPresentCollections;
+
     @Autowired JavaSparkContext sparkContext;
 
     @Autowired EventFactory eventFactory;
@@ -36,7 +45,11 @@ public class App implements CommandLineRunner {
     }
 
     @Override public void run(final String[] args) {
-        final JavaRDD<Optional<Instance>> instances = sparkContext.textFile(INSTANCES_FILE_PATH).map(mapCsvToInstance);
-        final JavaRDD<Optional<Collection>> collections = sparkContext.textFile(COLLECTIONS_FILE_PATH).map(mapCsvToCollection);
+        final JavaRDD<Instance> instances = sparkContext.textFile(INSTANCES_FILE_PATH)
+                .map(mapCsvToInstance)
+                .filter(filterOnlyPresentInstances)
+                .map(getInstance);
+        final JavaRDD<BigDecimal> mem = instances.map(Instance::getMemoryResourcesRequested);
+        final String b = mem.reduce(BigDecimal::$plus).toString();
     }
 }

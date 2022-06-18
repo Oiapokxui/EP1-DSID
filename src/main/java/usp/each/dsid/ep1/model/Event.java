@@ -15,7 +15,7 @@ import lombok.Setter;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-abstract class Event implements Serializable {
+public abstract class Event implements Serializable {
     @Getter @Setter
     @JsonProperty("time")
     Long time;
@@ -26,7 +26,7 @@ abstract class Event implements Serializable {
 
     @Getter @Setter
     @JsonProperty("collection_id")
-    Double collectionId;
+    Long collectionId;
 
     @Getter
     public PriorityType priority;
@@ -35,6 +35,8 @@ abstract class Event implements Serializable {
     void priority(final int priority) {
         this.priority = PriorityType.fromInteger(priority);
     }
+
+    // BOILER-PLATE CODE IN ORDER TO FUNCTION TOGETHER WITH SPARK
 
     @Override public boolean equals(final Object o) {
         if(this == o) {

@@ -1,3 +1,11 @@
+# Como rodar
+
+Primeiro executar o script gradlew na raiz do projeto e então executar o jar.
+
+```shell
+./gradlew build ; java -jar build/libs/*SNAPSHOT.jar
+```
+
 # Conceitos
 
 Jobs são compostos de:
@@ -29,6 +37,14 @@ Collections são conjuntos de jobs ou tasks e Instances são unidades de tasks o
 
 | time | type* | collection_id | priority | instance_index | resource_requests.cpu | resource_requests.memory |
 |------|-------|---------------|----------|----------------|-----------------------|--------------------------|
+
+# Tiers de prioridade
+
+- Free tier (priorities ≤ 99)
+- Best-effort Batch (beb) (priorities 100–115)
+- Mid-tier (priorities 116–119)
+- Production tier (priorities 120–359)
+- Monitoring tier (priorities ≥ 360)
 
 # Perguntas
 

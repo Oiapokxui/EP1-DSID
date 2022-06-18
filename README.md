@@ -40,7 +40,7 @@ Collections são conjuntos de jobs ou tasks e Instances são unidades de tasks o
 
 # Tiers de prioridade
 
-- Free tier (priorities ≤ 99)
+- Free tier (priority ≤ 99)
 - Best-effort Batch (beb) (priorities 100–115)
 - Mid-tier (priorities 116–119)
 - Production tier (priorities 120–359)
@@ -56,8 +56,8 @@ Collections são conjuntos de jobs ou tasks e Instances são unidades de tasks o
 
 # Possíveis caminhos para resolver
 
-1. Analisar os campos `resource_requests` da tabela de instâncias
-2. Agrupar por tipos de prioridade (checar documento de traces para entender quais são os ranges) e fazer análises.
+1. Analisar os campos `resource_requests` da [tabela de instâncias](#header-da-tabela-de-instncias).
+2. Agrupar por [tipos de prioridade](#tiers-de-prioridade) e fazer análises.
 3. Possível heurística: ordenar pelo campo `time`, pegar o valor mínimo (tirando 0) e o máximo, tirar a diferença, calcular quantas horas isso equivale e criar
    um map (long -> long) com essas tantas entradas. A partir disso, para cada entrada na tabela, calcular em qual das horas ela se encaixa (dividir por
    3600_000_000 microssegundos por hora e subtrair pela quantidade de horas do time inicial) e incrementar em um a entrada do map que corresponde àquela hora.

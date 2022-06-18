@@ -1,7 +1,6 @@
 package usp.each.dsid.ep1.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import scala.math.BigDecimal;
 
 /**
  * Models an entry on the instance events table
@@ -21,11 +21,19 @@ public class Instance extends Event implements Serializable {
     @JsonProperty("instance_index")
     int index;
     @Getter
-    @JsonProperty("resource_request.cpu")
     BigDecimal cpuResourcesRequested;
     @Getter
-    @JsonProperty("resource_request.memory")
     BigDecimal memoryResourcesRequested;
+
+    @JsonProperty("resource_request.cpu")
+    private void cpu(final String cpu) {
+        cpuResourcesRequested = BigDecimal.exact(cpu);
+    }
+
+    @JsonProperty("resource_request.memory")
+    private void memory(final String mem) {
+        memoryResourcesRequested = BigDecimal.exact(mem);
+    }
 
     // BOILER-PLATE CODE in order to maitain compatibility with spark
 

@@ -1,10 +1,8 @@
 package usp.each.dsid.ep1.config;
 
-import static usp.each.dsid.ep1.utils.Constants.APP_NAME;
-import static usp.each.dsid.ep1.utils.Constants.MASTER_URL;
-
-import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.sql.SparkSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +16,8 @@ public class SparkContextFactory {
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
-    public static JavaSparkContext getContext() {
-        return JavaSparkContext.fromSparkContext(new SparkContext(MASTER_URL, APP_NAME));
+    @Autowired
+    public JavaSparkContext sparkContext(final SparkSession sparkSession) {
+        return JavaSparkContext.fromSparkContext(sparkSession.sparkContext());
     }
 }

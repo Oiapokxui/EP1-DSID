@@ -2,6 +2,8 @@ package usp.each.dsid.ep1;
 
 import static usp.each.dsid.ep1.utils.Constants.INSTANCES_FILE_PATH;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -37,9 +39,20 @@ public class App implements CommandLineRunner {
         final Dataset<Row> instances = sparkSession.read().schema(schemaFactory.eventSchema()).csv(INSTANCES_FILE_PATH);
         instances.createOrReplaceTempView("instance");
         final long start = System.currentTimeMillis();
-        log.info("******************** Starting reduction");
-        final Double sum = sparkSession.sql("select sum(resource_requests_memory) from instance").first().getDouble(0);
-        final long elapsedTime = System.currentTimeMillis() - start;
-        log.info("****************** took {} milliseconds to find sum {} of column", elapsedTime, sum);
+        final CompletableFuture<Double> a = CompletableFuture.supplyAsync(
+                () -> sparkSession.sql("select sum(resource_requests_memory) from instance").first().getDouble(0));
+        final CompletableFuture<Double> b = CompletableFuture.supplyAsync(
+                () -> sparkSession.sql("select count(resource_requests_memory) from instance").first().getDouble(0));
+
+        try {
+            log.info("******************** Starting reduction");
+            final Double sum = a.thenCombine(b, (aa, bb) -> aa / bb).get();
+            final long elapsedTime = System.currentTimeMillis() - start;
+            log.info("******************** took {} milliseconds to find sum {} of column", elapsedTime, sum);
+        }
+        catch(final Exception e) {
+            log.error("Error while running threads:", e);
+        }
+        //        final Double sum = sparkSession.sql("select sum(resource_requests_memory) from instance").first().getDouble(0);
     }
 }

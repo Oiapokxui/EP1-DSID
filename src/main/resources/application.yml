@@ -1,2 +1,2 @@
-logging.level.org.apache: WARN
+logging.level.org.apache: INFO
 logging.level.usp: INFO

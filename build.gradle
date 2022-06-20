@@ -1,7 +1,9 @@
 plugins {
     id 'java'
+    id 'application'
     id 'org.springframework.boot' version '2.7.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "com.github.johnrengelman.shadow" version "5.2.0"
 }
 
 group 'usp.each.dsid'
@@ -26,19 +28,28 @@ dependencies {
     implementation group: 'org.apache.spark', name: 'spark-core_2.13', version: '3.2.1'
     implementation group: 'org.apache.spark', name: 'spark-sql_2.13', version: '3.2.1'
 
+    // Gradle was updating this one and it was causing errors
+    implementation group: 'org.codehaus.janino', name: 'commons-compiler', version: '3.0.16'
+    implementation group: 'org.codehaus.janino', name: 'janino', version: '3.0.16'
+
     // Lombok for reducing boilerplate code
     implementation 'org.projectlombok:lombok:1.18.24'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
-    // Jackson allows transforming data into objects quickly
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.13.3'
 
     // Spring Boot for bean injection
     implementation 'org.springframework.boot:spring-boot-starter'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+application {
+    mainClassName = 'usp.each.dsid.ep1.App'
+}
+
+shadowJar {
+    zip64 true
 }
 
 test {

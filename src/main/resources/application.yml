@@ -1,0 +1,2 @@
+logging.level.org.apache: WARN
+logging.level.usp: INFO

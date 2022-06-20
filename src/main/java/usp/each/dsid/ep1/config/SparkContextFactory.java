@@ -1,5 +1,8 @@
 package usp.each.dsid.ep1.config;
 
+import static usp.each.dsid.ep1.utils.Constants.FAIR_SCHEDULING_POOL;
+import static usp.each.dsid.ep1.utils.Constants.POOL_NAME;
+
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,8 @@ public class SparkContextFactory {
     @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
     @Autowired
     public JavaSparkContext sparkContext(final SparkSession sparkSession) {
-        return JavaSparkContext.fromSparkContext(sparkSession.sparkContext());
+        final JavaSparkContext context = JavaSparkContext.fromSparkContext(sparkSession.sparkContext());
+        context.setLocalProperty(POOL_NAME, FAIR_SCHEDULING_POOL);
+        return context;
     }
 }

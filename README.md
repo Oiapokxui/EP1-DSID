@@ -3,7 +3,7 @@
 Primeiro executar o script gradlew na raiz do projeto e então executar o jar.
 
 ```shell
-./gradlew build ; java -jar build/libs/*SNAPSHOT.jar
+./gradlew shadowJar ; java -jar build/libs/*SNAPSHOT.jar
 ```
 
 # Conceitos

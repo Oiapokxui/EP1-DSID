@@ -1,2 +1,3 @@
 rootProject.name = 'EP1'
+include('app')
 

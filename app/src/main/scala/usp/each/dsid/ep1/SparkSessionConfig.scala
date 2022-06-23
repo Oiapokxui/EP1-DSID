@@ -8,6 +8,4 @@ object SparkSessionConfig {
     .appName(APP_NAME)
     .master(MASTER_URL)
     .getOrCreate()
-
-  private val ctx = spark.sparkContext.getConf.set("", "");
 }

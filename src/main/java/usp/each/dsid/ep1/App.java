@@ -23,7 +23,7 @@ public class App implements CommandLineRunner {
 
     @Autowired SchemaFactory schemaFactory;
 
-    @Autowired Strat4 codeStrat;
+    @Autowired Problem5 problem5;
 
     public static void main(final String[] args) {
         final SpringApplication application = new SpringApplication(App.class);
@@ -32,6 +32,6 @@ public class App implements CommandLineRunner {
     }
 
     @Override public void run(final String[] args) {
-        codeStrat.run();
+        problem5.run();
     }
 }

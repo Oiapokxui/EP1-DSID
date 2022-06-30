@@ -11,5 +11,9 @@ public enum EventType {
     KILL,
     LOST,
     UPDATE_PENDING,
-    UPDATE_RUNNING
+    UPDATE_RUNNING;
+
+    public static EventType get(int index) {
+        return EventType.values()[index];
+    }
 }

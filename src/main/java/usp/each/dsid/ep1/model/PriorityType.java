@@ -7,7 +7,7 @@ public enum PriorityType {
     PRODUCTION_TIER,
     MONITORING_TIER;
 
-    public static PriorityType fromInteger(final int priority) {
+    public static PriorityType get(final int priority) {
         if(priority <= 99) {
             return FREE;
         }

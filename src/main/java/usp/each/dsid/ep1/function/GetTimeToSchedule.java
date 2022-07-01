@@ -9,7 +9,6 @@ import usp.each.dsid.ep1.function.MapInstanceToSubset.InstanceSubset;
 import usp.each.dsid.ep1.model.EventType;
 
 public class GetTimeToSchedule implements Function<Tuple2<Long, Iterable<InstanceSubset>>, Long> {
-    private static final int INSTANCE_POSITION_INDEX = 3;
 
     @Override public Long call(final Tuple2<Long, Iterable<InstanceSubset>> pair) {
         final Iterable<InstanceSubset> group = pair._2;

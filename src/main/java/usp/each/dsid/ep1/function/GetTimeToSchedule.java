@@ -1,53 +1,47 @@
 package usp.each.dsid.ep1.function;
 
-import java.util.List;
 import java.util.Objects;
 
 import org.apache.spark.api.java.function.Function;
 
 import scala.Tuple2;
+import usp.each.dsid.ep1.function.MapInstanceToSubset.InstanceSubset;
 import usp.each.dsid.ep1.model.EventType;
 
-public class GetTimeToSchedule implements Function<Tuple2<Long, Iterable<List<Long>>>, Long> {
-    private static final int TIME = 0;
+public class GetTimeToSchedule implements Function<Tuple2<Long, Iterable<InstanceSubset>>, Long> {
+    private static final int INSTANCE_POSITION_INDEX = 3;
 
-    private static final int TYPE = 1;
+    @Override public Long call(final Tuple2<Long, Iterable<InstanceSubset>> pair) {
+        final Iterable<InstanceSubset> group = pair._2;
 
-    private static final int ID = 2;
-
-    private static final int INDEX = 3;
-
-    @Override public Long call(final Tuple2<Long, Iterable<List<Long>>> pair) {
-        final Iterable<List<Long>> group = pair._2;
-
-        List<Long> submit = null;
-        List<Long> firstSchedule = null;
+        InstanceSubset submit = null;
+        InstanceSubset firstSchedule = null;
 
         Long lesserTime = Long.MAX_VALUE;
-        for(final List<Long> taskStep : group) {
-            if(taskStep.get(TYPE) == EventType.SUBMIT.ordinal() && taskStep.get(TIME) < lesserTime) {
+        for(final InstanceSubset taskStep : group) {
+            if(taskStep.type() == EventType.SUBMIT && taskStep.time() < lesserTime) {
                 submit = taskStep;
-                lesserTime = submit.get(TIME);
+                lesserTime = submit.time();
             }
-            else if(taskStep.get(TYPE) == EventType.SCHEDULE.ordinal() && submit != null && Objects.equals(taskStep.get(INDEX), submit.get(INDEX))) {
+            else if(taskStep.type() == EventType.SCHEDULE
+                    && submit != null
+                    && Objects.equals(taskStep.instanceIndex(),
+                    submit.instanceIndex())
+            ) {
                 firstSchedule = taskStep;
             }
         }
 
-        if(firstSchedule == null || submit == null) {
-            System.out.println("aaaaaaaaaaaaaa\n" + group.spliterator().getExactSizeIfKnown());
-        }
-        if(firstSchedule == null || !Objects.equals(firstSchedule.get(INDEX), submit.get(INDEX))) {
-            for(final List<Long> taskStep : group) {
-                if(taskStep.get(TYPE) == EventType.SCHEDULE.ordinal() && taskStep.get(INDEX).equals(submit.get(INDEX))) {
+        if(firstSchedule == null || !Objects.equals(firstSchedule.instanceIndex(), submit.instanceIndex())) {
+            for(final InstanceSubset taskStep : group) {
+                if(taskStep.type() == EventType.SCHEDULE
+                        && taskStep.instanceIndex().equals(submit.instanceIndex())
+                ) {
                     firstSchedule = taskStep;
                 }
             }
         }
-        if(firstSchedule == null || submit == null) {
-            System.out.println("aaaaaaaaaaaaaa\n" + group.spliterator().getExactSizeIfKnown());
-        }
-        return firstSchedule.get(TIME) - submit.get(TIME);
+        return firstSchedule.time() - submit.time();
 
     }
 }

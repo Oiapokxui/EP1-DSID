@@ -9,6 +9,12 @@ plugins {
 group 'usp.each.dsid'
 version '1.0-SNAPSHOT'
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor

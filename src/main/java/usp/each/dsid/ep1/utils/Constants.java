@@ -8,8 +8,9 @@ public class Constants {
     public final static String INSTANCES_FILE_PATH = "gs://borg-traces/sample-traces/instance_events/*";
     public final static String INSTANCE_HEADER = "time,type,collection_id,priority,instance_index,resource_request.cpus,resource_request.memory";
     public final static String COLLECTION_HEADER = "time,type,collection_id,priority";
-    public final static String MASTER_URL = "local[*]";
-    public final static String REMOVE_HOST_MASTER_URL = "spark://iniciativa-travazap.duckdns.org";
+    public final static String LOCAL_STANDALONE_MASTER_URL = "local[*]";
+    public final static String TRAVAZAP_MASTER_URL = "spark://iniciativa-travazap.duckdns.org:7077";
+    public final static String LOCAL_CLUSTER_MASTER_URL = "spark://192.168.0.200:7077";
     public final static String APP_NAME = "EP1-DSID";
     public final static String SCHEDULER_MODE = "spark.scheduler.mode";
     public final static String DRIVER_MEMORY = "spark.driver.memory";

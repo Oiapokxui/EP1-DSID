@@ -31,13 +31,12 @@ public class MapInstanceToSubset implements Function<String[], MapInstanceToSubs
             return Long.parseLong(pair[COLLECTION_ID_INDEX]);
         }
 
-        public final Long instanceIndex() {
+        public final long instanceIndex() {
             return Long.parseLong(pair[INDEX]);
         }
 
         InstanceSubset(final String[] pair) {
             this.pair = pair;
-            final long typeOrdinal = Long.parseLong(pair[TYPE_INDEX]);
         }
     }
 

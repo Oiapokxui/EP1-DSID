@@ -25,7 +25,7 @@ public class SparkSessionFactory {
                 .master(MASTER_URL)
                 .appName(APP_NAME)
                 .config(SCHEDULER_MODE, FAIR_SCHEDULING)
-                .config(DRIVER_MEMORY, "6g")
+                .config(DRIVER_MEMORY, "10g")
                 .getOrCreate();
     }
 }

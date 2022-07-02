@@ -22,7 +22,7 @@ public class SparkContextFactory {
     @Autowired
     public JavaSparkContext sparkContext(final SparkSession sparkSession) {
         final JavaSparkContext context = JavaSparkContext.fromSparkContext(sparkSession.sparkContext());
-        context.setLocalProperty(POOL_NAME, FAIR_SCHEDULING_POOL);
+        // context.setLocalProperty(POOL_NAME, FAIR_SCHEDULING_POOL);
         return context;
     }
 }

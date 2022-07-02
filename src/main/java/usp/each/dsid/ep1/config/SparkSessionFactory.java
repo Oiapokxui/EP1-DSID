@@ -7,7 +7,7 @@ import static usp.each.dsid.ep1.utils.Constants.FIFO_SCHEDULING;
 import static usp.each.dsid.ep1.utils.Constants.GS_IMPL;
 import static usp.each.dsid.ep1.utils.Constants.GS_KEYFILE;
 import static usp.each.dsid.ep1.utils.Constants.GS_PROJECT;
-import static usp.each.dsid.ep1.utils.Constants.LOCAL_CLUSTER_MASTER_URL;
+import static usp.each.dsid.ep1.utils.Constants.TRAVAZAP_MASTER_URL;
 import static usp.each.dsid.ep1.utils.Constants.SCHEDULER_MODE;
 
 import org.apache.spark.sql.SparkSession;
@@ -26,7 +26,7 @@ public class SparkSessionFactory {
     @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
     public SparkSession sparkSession() {
         return SparkSession.builder()
-                .master(LOCAL_CLUSTER_MASTER_URL)
+                .master(TRAVAZAP_MASTER_URL)
                 .appName(APP_NAME)
                 .config(SCHEDULER_MODE, FIFO_SCHEDULING)
                 .config(DRIVER_MEMORY, "10g")

@@ -37,7 +37,9 @@ public class Problem5 {
                 .groupBy(InstanceSubset::collectionId) // Tuple2<Long, Iterable<InstanceSubset>>
                 .filter(new FilterGroupsWithBothScheduleAndSubmit());
 
-        final JavaRDD<Long> times = jobs.map(new GetTimeToSchedule()).cache();
+        final JavaRDD<Long> times = jobs.map(new GetTimeToSchedule())
+                .filter(opt -> opt.isPresent())
+                .map(opt -> opt.get()).cache();
 
         final Long sum = times.reduce(Long::sum);
         final Long count = jobs.count();

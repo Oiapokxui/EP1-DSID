@@ -20,8 +20,9 @@ configurations {
         extendsFrom annotationProcessor
     }
     implementation {
-        // Something in the dependencies is using this module and its having a conflit with logback
+        // Something in the dependencies is using this module and its having a conflict with logback
         exclude group: 'org.slf4j', module: 'slf4j-reload4j'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
     }
 }
 

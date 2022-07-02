@@ -31,8 +31,8 @@ repositories {
 
 dependencies {
     // Spark
-    implementation group: 'org.apache.spark', name: 'spark-core_2.13', version: '3.2.1'
-    implementation group: 'org.apache.spark', name: 'spark-sql_2.13', version: '3.2.1'
+    implementation group: 'org.apache.spark', name: 'spark-core_2.13', version: '3.3.0'
+    implementation group: 'org.apache.spark', name: 'spark-sql_2.13', version: '3.3.0'
 
     // Gradle was updating this one and it was causing errors
     implementation group: 'org.codehaus.janino', name: 'commons-compiler', version: '3.0.16'

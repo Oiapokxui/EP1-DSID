@@ -3,6 +3,7 @@ package usp.each.dsid.ep1;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.Optional;
 import org.apache.spark.sql.SparkSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ public class Problem5 {
 
     @Autowired JavaSparkContext sparkContext;
 
-    @Autowired SparkSession sparkSession; 
+    @Autowired SparkSession sparkSession;
 
     public void run() {
         final Long startTime = System.currentTimeMillis();
@@ -38,8 +39,8 @@ public class Problem5 {
                 .filter(new FilterGroupsWithBothScheduleAndSubmit());
 
         final JavaRDD<Long> times = jobs.map(new GetTimeToSchedule())
-                .filter(opt -> opt.isPresent())
-                .map(opt -> opt.get()).cache();
+                .filter(Optional::isPresent)
+                .map(Optional::get).cache();
 
         final Long sum = times.reduce(Long::sum);
         final Long count = jobs.count();
@@ -47,7 +48,7 @@ public class Problem5 {
 
         final Long elapsedTime = System.currentTimeMillis() - startTime;
         log.info("(RESULT) Mean of time to schedule from submit: {}", result);
-        log.error("Took {} ms to calculate", elapsedTime);
+        log.info("Took {} ms to calculate", elapsedTime);
     }
 }
 

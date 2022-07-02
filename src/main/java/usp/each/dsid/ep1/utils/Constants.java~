@@ -2,9 +2,13 @@ package usp.each.dsid.ep1.utils;
 
 public class Constants {
     public final static String COLLECTIONS_FILE_PATH = "sample-traces/collection_events/*";
+<<<<<<< HEAD
+    public final static String INSTANCES_FILE_PATH = "sample-traces/instance_events/*";
+=======
     public final static String INSTANCES_FILE_PATH = "google-traces/instance_events/*";
     public final static String INSTANCE_HEADER = "time,type,collection_id,priority,instance_index,resource_request.cpus,resource_request.memory";
     public final static String COLLECTION_HEADER = "time,type,collection_id,priority";
+>>>>>>> 2fd3c74bc1541a5ddfaae4e52b11f6962922420f
     public final static String MASTER_URL = "local[*]";
     public final static String APP_NAME = "EP1-DSID";
     public final static String SCHEDULER_MODE = "spark.scheduler.mode";

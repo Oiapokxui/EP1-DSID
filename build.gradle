@@ -9,13 +9,20 @@ plugins {
 group 'usp.each.dsid'
 version '1.0-SNAPSHOT'
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
     implementation {
-        // Something in the dependencies is using this module and its having a conflit with logback
+        // Something in the dependencies is using this module and its having a conflict with logback
         exclude group: 'org.slf4j', module: 'slf4j-reload4j'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
     }
 }
 
@@ -25,8 +32,8 @@ repositories {
 
 dependencies {
     // Spark
-    implementation group: 'org.apache.spark', name: 'spark-core_2.13', version: '3.2.1'
-    implementation group: 'org.apache.spark', name: 'spark-sql_2.13', version: '3.2.1'
+    implementation group: 'org.apache.spark', name: 'spark-core_2.13', version: '3.3.0'
+    implementation group: 'org.apache.spark', name: 'spark-sql_2.13', version: '3.3.0'
 
     // Gradle was updating this one and it was causing errors
     implementation group: 'org.codehaus.janino', name: 'commons-compiler', version: '3.0.16'

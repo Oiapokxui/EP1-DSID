@@ -4,4 +4,7 @@ google-traces
 .idea
 *.pdf
 *.xz
-spark-3.2.1-bin-hadoop3.2*
+spark-*-bin-hadoop3*
+bin
+.vscode
+.DS_Store

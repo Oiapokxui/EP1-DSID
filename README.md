@@ -63,4 +63,3 @@ Collections são conjuntos de jobs ou tasks e Instances são unidades de tasks o
    3600_000_000 microssegundos por hora e subtrair pela quantidade de horas do time inicial) e incrementar em um a entrada do map que corresponde àquela hora.
 5. similar, só que em cima da tabela de instances.
 6. Agrupar instancias por collection_id, ordenar por tempo e pegar a primeira entrada do tipo SUBMIT que aparece no grupo.
- 

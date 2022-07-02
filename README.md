@@ -5,14 +5,21 @@ Baixe o zip do spark, extraia na raiz do projeto.
 Edite a variável `SPARK_HOME` no script `gcs` para o caminho da pasta do spark extraída.
 Execute o script `gcs` de maneira global: `. ./gcs`
 Copie o arquivo `spark-defaults.conf` para a pasta `$SPARK_HOME/conf`.
+Copie o arquivo `log4j2.properties` para a pasta `$SPARK_HOME/conf`.
 Baixe o jar do Google Storage Connector e o coloque na pasta `$SPARK_HOME/jars`.
 
 # Como rodar
 
-Primeiro executar o script gradlew na raiz do projeto e então executar o jar.
+Primeiro, é preciso compilar e construir o jar da aplicação.
 
 ```shell
-./gradlew shadowJar ; java -jar build/libs/*SNAPSHOT.jar
+./gradlew shadowJar
+```
+
+Depois, após inicialização dos nós Master e Worker do cluster, basta rodar o spark-submit, passando a url do master e o uber jar construído:
+
+```shell
+$SPARK_HOME/bin/spark-submit --master <MASTER_URL> --deploy-mode cluster <APP_JAR>
 ```
 
 # Conceitos

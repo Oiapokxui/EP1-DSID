@@ -1,7 +1,7 @@
 # Configurando ambiente para ler do Google Cloud Storage
 
-Coloque a chave json do projeto no Google Cloud no arquivo `/tmp/ep1-dsid/ep1-dsid-9ee559e3b7e8.json`
-Baixe o spark no site deles, extraia na raiz do projeto.
+Coloque a sua chave json do projeto no Google Cloud no arquivo `/tmp/ep1-dsid/key.json`
+Baixe o zip do spark, extraia na raiz do projeto.
 Edite a variável `SPARK_HOME` no script `gcs` para o caminho da pasta do spark extraída.
 Execute o script `gcs` de maneira global: `. ./gcs`
 Copie o arquivo `spark-defaults.conf` para a pasta `$SPARK_HOME/conf`.

@@ -1,3 +1,9 @@
+# Configurando ambiente para ler do Google Cloud Storage
+
+Baixe o spark no site deles, extraia na raiz do projeto. Copie o arquivo `spark-defaults.conf` para a pasta `conf` dentro da pasta extraída do spark.
+Baixe o jar do Google Storage Connector e o coloque na pasta `jars` da pasta do spark.
+Coloque a chave json do projeto no Google Cloud no arquivo `/tmp/ep1-dsid/ep1-dsid-9ee559e3b7e8.json`
+
 # Como rodar
 
 Primeiro executar o script gradlew na raiz do projeto e então executar o jar.

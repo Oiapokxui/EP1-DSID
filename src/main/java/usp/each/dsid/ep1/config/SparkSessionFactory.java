@@ -21,7 +21,6 @@ public class SparkSessionFactory {
     @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
     public SparkSession sparkSession() {
         return SparkSession.builder()
-                .master("spark://192.168.0.200:7077")
                 .appName(APP_NAME)
                 .config(SCHEDULER_MODE, FAIR_SCHEDULING)
                 .config(DRIVER_MEMORY, "10g")

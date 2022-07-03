@@ -6,9 +6,9 @@ import java.util.Comparator;
 /**
  * Spark didn't leave me no choice.
  */
-public class LongComparatorButItIsSerializable implements Comparator<Long>, Serializable {
-    @Override public int compare(final Long x, final Long y) {
-        return Long.compare(x, y);
+public class IntegerComparatorButItIsSerializable implements Comparator<Integer>, Serializable {
+    @Override public int compare(final Integer x, final Integer y) {
+        return Integer.compare(x, y);
     }
 
     @Override public int hashCode() {

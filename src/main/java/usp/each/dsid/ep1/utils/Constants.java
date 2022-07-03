@@ -13,6 +13,7 @@ public class Constants {
     public final static String APP_NAME = "EP1-DSID";
     public final static String SCHEDULER_MODE = "spark.scheduler.mode";
     public final static String DRIVER_MEMORY = "spark.driver.memory";
+    public final static String DRIVER_PORT = "spark.driver.port";
     public final static String POOL_NAME = "spark.scheduler.pool";
     public final static String ENABLE_GS = "spark.hadoop.google.cloud.auth.service.account.enable";
     public final static String GS_KEYFILE = "spark.hadoop.google.cloud.auth.service.account.json.keyfile";

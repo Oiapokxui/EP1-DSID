@@ -15,7 +15,7 @@ public class App implements CommandLineRunner {
 
     @Autowired SparkSession sparkSession;
 
-    @Autowired Problem5 problem5;
+    @Autowired Problem1 problem1;
 
     public static void main(final String[] args) {
         final SpringApplication application = new SpringApplication(App.class);
@@ -24,6 +24,6 @@ public class App implements CommandLineRunner {
     }
 
     @Override public void run(final String[] args) {
-        problem5.run();
+        problem1.run();
     }
 }

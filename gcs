@@ -1,5 +1,5 @@
 #! /bin/zsh
-export SPARK_HOME=/Users/enrique.silva/Documents/USP/5per/DSID/EP1/spark-3.3.0-bin-hadoop3
+export SPARK_HOME=/home/ace/Documents/Acadêmico/SI/5_Semestre/dsid/ep1/spark-3.3.0-bin-hadoop3
 export GOOGLE_APPLICATION_CREDENTIALS=/tmp/ep1-dsid/key.json
 export PROJECT=ep1-dsid
 export BUCKET_NAME=borg-traces

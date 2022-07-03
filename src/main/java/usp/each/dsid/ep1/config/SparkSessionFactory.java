@@ -7,8 +7,10 @@ import static usp.each.dsid.ep1.utils.Constants.FIFO_SCHEDULING;
 import static usp.each.dsid.ep1.utils.Constants.GS_IMPL;
 import static usp.each.dsid.ep1.utils.Constants.GS_KEYFILE;
 import static usp.each.dsid.ep1.utils.Constants.GS_PROJECT;
+import static usp.each.dsid.ep1.utils.Constants.LOCAL_STANDALONE_MASTER_URL;
 import static usp.each.dsid.ep1.utils.Constants.TRAVAZAP_MASTER_URL;
 import static usp.each.dsid.ep1.utils.Constants.SCHEDULER_MODE;
+import static usp.each.dsid.ep1.utils.Constants.DRIVER_PORT;
 
 import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -26,8 +28,8 @@ public class SparkSessionFactory {
     @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
     public SparkSession sparkSession() {
         return SparkSession.builder()
-                .master(TRAVAZAP_MASTER_URL)
                 .appName(APP_NAME)
+                .master(LOCAL_STANDALONE_MASTER_URL)
                 .config(SCHEDULER_MODE, FIFO_SCHEDULING)
                 .config(DRIVER_MEMORY, "10g")
                 .config(GS_IMPL, "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")

@@ -32,6 +32,23 @@ public class App implements CommandLineRunner {
     }
 
     @Override public void run(final String[] args) {
-        problem2.run();
+
+        switch (args[0]) {
+            case "2":
+                problem4.run();
+                break;
+            case "4":
+                problem4.run();
+                break;
+
+            case "5":
+                problem5.run();
+                break;
+
+            default:
+                problem5.run();
+                break;
+        }
+
     }
 }

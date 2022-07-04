@@ -29,9 +29,9 @@ public class Problem2 {
 
     @Autowired SparkSession sparkSession;
 
-    private static final int CPU_INDEX = 0;
+    private static final int CPU_INDEX = 1;
 
-    private static final int MEM_INDEX = 1;
+    private static final int MEM_INDEX = 2;
 
 
     public void run() {
@@ -64,32 +64,34 @@ public class Problem2 {
         
 
         List<Dataset<Double>> datasets = List.of(
-            free_cpu, 
+            // free_cpu, 
             free_mem, 
-            best_cpu, 
+            // best_cpu, 
             best_mem, 
-            mid_cpu, 
+            // mid_cpu, 
             mid_mem,
-            production_cpu,
+            // production_cpu,
             production_mem,
-            monitoring_cpu,
+            // monitoring_cpu,
             monitoring_mem);
 
         String[] datasetNames = new String[] {
-            "free_cpu", 
+            // "free_cpu", 
             "free_mem", 
-            "best_cpu", 
+            // "best_cpu", 
             "best_mem", 
-            "mid_cpu", 
+            // "mid_cpu", 
             "mid_mem",
-            "production_cpu",
+            // "production_cpu",
             "production_mem",
-            "monitoring_cpu",
+            // "monitoring_cpu",
             "monitoring_mem"};
 
         String[] operations = new String[] {"max", "min", "avg", "stddev_samp"};
 
         log.info("******* PROBLEM 2");
+
+        String[] logs = new String[40];
 
         for (int i = 0; i < datasets.size(); i++) {
             String datasetName = datasetNames[i];
@@ -101,8 +103,13 @@ public class Problem2 {
                 final Map<String, String> queryMap = new HashMap<>();
                 queryMap.put("value", operation);
                 Double result = dataset.agg(queryMap).first().getDouble(0);
-                log.info("******* {}({}) - {}", operation, datasetName, result);
+                String logString = String.format("****** %s(%s) - %g", operation, datasetName, result);
+                log.info(logString);
             }
+        }
+
+        for (String logString : logs) {
+            log.info(logString);
         }
         
 

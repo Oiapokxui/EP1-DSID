@@ -6,8 +6,9 @@
 - Copie o arquivo `spark-defaults.conf` para a pasta `$SPARK_HOME/conf`.
 - Copie o arquivo `log4j2.properties` para a pasta `$SPARK_HOME/conf`.
 - Compile a aplicação com:
-    - ```shell 
+  ```shell
   ./gradlew build
+  ```
 
 # Como rodar em cluster standalone
 

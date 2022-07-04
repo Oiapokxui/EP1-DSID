@@ -2,6 +2,7 @@ package usp.each.dsid.ep1.config;
 
 import static usp.each.dsid.ep1.utils.Constants.APP_NAME;
 import static usp.each.dsid.ep1.utils.Constants.DRIVER_MEMORY;
+import static usp.each.dsid.ep1.utils.Constants.DRIVER_MAX_RESULT;
 import static usp.each.dsid.ep1.utils.Constants.ENABLE_GS;
 import static usp.each.dsid.ep1.utils.Constants.EXECUTOR_MEMORY;
 import static usp.each.dsid.ep1.utils.Constants.FIFO_SCHEDULING;
@@ -28,10 +29,11 @@ public class SparkSessionFactory {
     public SparkSession sparkSession() {
         return SparkSession.builder()
                 .appName(APP_NAME)
-                .master(TRAVAZAP_MASTER_URL)
+                .master(LOCAL_STANDALONE_MASTER_URL)
                 .config(SCHEDULER_MODE, FIFO_SCHEDULING)
-                .config(DRIVER_MEMORY, "6g")
-                .config(EXECUTOR_MEMORY, "6g")
+                .config(DRIVER_MEMORY, "7g")
+                .config(EXECUTOR_MEMORY, "10g")
+                .config(DRIVER_MAX_RESULT, "4g")
                 .config(GS_IMPL, "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")
                 .config(GS_PROJECT, "ep1-dsid")
                 .config(ENABLE_GS, "true")

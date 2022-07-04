@@ -39,11 +39,11 @@ public class Problem5 {
         final JavaPairRDD<Long, Iterable<long[]>> jobs = sparkContext.textFile(Constants.INSTANCES_FILE_PATH)
                 .filter(str -> !str.equals(Constants.INSTANCE_HEADER))
                 .map(str -> str.split(","))
-                .filter(arr -> arr.length < 7)
+                .filter(arr -> arr.length == 7)
                 .map(arr -> new long[] {
-                    Long.parseLong(arr[0]), 
-                    Long.parseLong(arr[1]), 
-                    Long.parseLong(arr[2]), 
+                    Long.parseLong(arr[0]),
+                    Long.parseLong(arr[1]),
+                    Long.parseLong(arr[2]),
                     Long.parseLong(arr[4])})
                 .filter(arr -> arr[TIME_INDEX] != 0L)
                 .filter(arr -> arr[TIME_INDEX] != Long.MAX_VALUE)
@@ -64,4 +64,3 @@ public class Problem5 {
         log.info("Took {} ms to calculate", elapsedTime);
     }
 }
-

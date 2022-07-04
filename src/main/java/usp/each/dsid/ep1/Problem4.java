@@ -58,7 +58,7 @@ public class Problem4 {
         log.info("******* avg jobs per hour: {}", avg);
         log.info("******* Hours [Hour, Count]: ");
         for(int hour = 1; hour <= hours; hour++) {
-            log.info("*******[{}, {}]", hour, hoursMap.getOrDefault(hour, 0));
+            log.info("*******[{}: {}]", hour, hoursMap.getOrDefault(hour, 0));
         }
         log.info("******* Took {} ms to calculate", elapsedTime);
     }

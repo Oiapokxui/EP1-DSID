@@ -4,7 +4,8 @@ import static usp.each.dsid.ep1.utils.Constants.COLLECTIONS_FILE_PATH;
 import static usp.each.dsid.ep1.utils.Constants.COLLECTION_HEADER;
 import static usp.each.dsid.ep1.utils.Constants.ONE_HOUR_IN_MICROSECONDS;
 
-import org.apache.hadoop.shaded.org.apache.kerby.kerberos.kerb.crypto.fast.FastUtil;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
@@ -33,21 +34,32 @@ public class Problem3 {
                 .map(Long::parseLong)
                 .filter(time -> time != 0L)
                 .filter(time -> time != Long.MAX_VALUE)
-                .map(time -> (double)time/(double)ONE_HOUR_IN_MICROSECONDS)
+                .map(time -> time / (double)ONE_HOUR_IN_MICROSECONDS)
                 .map(time -> (int)Math.ceil(time))
                 .cache();
-        timeRdd.take(5).forEach(System.out::println);
+
         final Long startTime = System.currentTimeMillis();
-        final Long max = timeRdd.max((new IntegerComparatorButItIsSerializable()));
-        final Long min = timeRdd.min((new IntegerComparatorButItIsSerializable()));
-        final int hours = (int)Math.ceil((max - min));
+        final int max = timeRdd.max((new IntegerComparatorButItIsSerializable()));
+        final int min = timeRdd.min((new IntegerComparatorButItIsSerializable()));
+        final int hours = max - min;
         final Long jobCount = timeRdd.count();
         final Double avg = jobCount / (double)hours;
+        final ConcurrentMap<Integer, Integer> hoursMap = new ConcurrentHashMap<Integer, Integer>(hours);
+        timeRdd.foreach(time -> hoursMap.compute(time, (hourKey, hourCount) -> {
+            if (hourCount == null) return 1;
+            else return hourCount + 1;
+        }));
         final Long elapsedTime = System.currentTimeMillis() - startTime;
-        log.error("Max timestamp: {}", max);
-        log.error("Min timestamp: {}", min);
-        log.error("Total hours: {}", hours);
-        log.error("Jobs per hour: {}", avg);
-        log.error("Took {} ms to calculate", elapsedTime);
+
+        log.info("******* PROBLEM3");
+        log.info("******* Max timestamp: {}", max);
+        log.info("******* Min timestamp: {}", min);
+        log.info("******* Total hours: {}", hours);
+        log.info("******* avg jobs per hour: {}", avg);
+        for(int hour = 0 ; hour < hours; hour++) {
+            log.info("******* [Hour, Count]: [{}, {}]", hour, hoursMap.getOrDefault(hour, 0));
+        }
+        hoursMap.forEach((hour, hourCount) -> System.out.println());
+        log.info("******* Took {} ms to calculate", elapsedTime);
     }
 }

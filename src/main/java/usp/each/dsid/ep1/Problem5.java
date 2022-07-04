@@ -26,16 +26,29 @@ public class Problem5 {
 
     @Autowired SparkSession sparkSession;
 
+    private static final int TIME_INDEX = 0;
+
+    private static final int TYPE_INDEX = 1;
+
+    private static final int COLLECTION_ID_INDEX = 2;
+
+    private static final int INDEX = 3;
+
     public void run() {
         final Long startTime = System.currentTimeMillis();
-        final JavaPairRDD<Long, Iterable<InstanceSubset>> jobs = sparkContext.textFile(Constants.INSTANCES_FILE_PATH)
+        final JavaPairRDD<Long, Iterable<long[]>> jobs = sparkContext.textFile(Constants.INSTANCES_FILE_PATH)
                 .filter(str -> !str.equals(Constants.INSTANCE_HEADER))
                 .map(str -> str.split(","))
-                .map(new MapInstanceToSubset())
-                .filter(subset -> subset.time() != 0L)
-                .filter(subset -> subset.time() != Long.MAX_VALUE)
-                .filter(subset -> subset.type() == EventType.SUBMIT || subset.type().equals(EventType.SCHEDULE))
-                .groupBy(InstanceSubset::collectionId) // Tuple2<Long, Iterable<InstanceSubset>>
+                .filter(arr -> arr.length < 7)
+                .map(arr -> new long[] {
+                    Long.parseLong(arr[0]), 
+                    Long.parseLong(arr[1]), 
+                    Long.parseLong(arr[2]), 
+                    Long.parseLong(arr[4])})
+                .filter(arr -> arr[TIME_INDEX] != 0L)
+                .filter(arr -> arr[TIME_INDEX] != Long.MAX_VALUE)
+                .filter(arr -> EventType.get((int)arr[TYPE_INDEX]) == EventType.SUBMIT || EventType.get((int)arr[TYPE_INDEX]).equals(EventType.SCHEDULE))
+                .groupBy(arr -> arr[COLLECTION_ID_INDEX]) // Tuple2<Long, Iterable<InstanceSubset>>
                 .filter(new FilterGroupsWithBothScheduleAndSubmit());
 
         final JavaRDD<Long> times = jobs.map(new GetTimeToSchedule())

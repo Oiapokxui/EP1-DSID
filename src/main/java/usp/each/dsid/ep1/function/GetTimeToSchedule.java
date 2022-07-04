@@ -8,29 +8,36 @@ import org.apache.spark.api.java.Optional;
 import org.apache.spark.api.java.function.Function;
 
 import scala.Tuple2;
-import usp.each.dsid.ep1.function.MapInstanceToSubset.InstanceSubset;
 import usp.each.dsid.ep1.model.EventType;
 
-public class GetTimeToSchedule implements Function<Tuple2<Long, Iterable<InstanceSubset>>, Optional<Long>> {
+public class GetTimeToSchedule implements Function<Tuple2<Long, Iterable<long[]>>, Optional<Long>> {
 
-    @Override public Optional<Long> call(final Tuple2<Long, Iterable<InstanceSubset>> pair) {
-        final Iterable<InstanceSubset> group = pair._2;
+    private static final int TIME_INDEX = 0;
 
-        List<InstanceSubset[]> pairs = new ArrayList<InstanceSubset[]>();
+    private static final int TYPE_INDEX = 1;
 
-        for(final InstanceSubset taskStep : group) {
-            if(taskStep.type() == EventType.SUBMIT) {
-                InstanceSubset[] set = new InstanceSubset[2];
+    private static final int COLLECTION_ID_INDEX = 2;
+
+    private static final int INDEX = 3;
+
+    @Override public Optional<Long> call(final Tuple2<Long, Iterable<long[]>> pair) {
+        final Iterable<long[]> group = pair._2;
+
+        List<long[][]> pairs = new ArrayList<long[][]>();
+
+        for(final long[] taskStep : group) {
+            if(EventType.get((int)taskStep[TYPE_INDEX]) == EventType.SUBMIT) {
+                long[][] set = new long[2][4];
                 set[0] = taskStep;
                 pairs.add(set);
             }
         }
 
-        for(final InstanceSubset taskStep : group) {
-            if (taskStep.type() == EventType.SCHEDULE) {
-                for (final InstanceSubset[] set : pairs) {
-                    final InstanceSubset submit = set[0];
-                    if (taskStep.instanceIndex() == submit.instanceIndex()) {
+        for(final long[] taskStep : group) {
+            if (EventType.get((int)taskStep[TYPE_INDEX]) == EventType.SCHEDULE) {
+                for (final long[][] set : pairs) {
+                    final long[] submit = set[0];
+                    if (taskStep[COLLECTION_ID_INDEX] == submit[COLLECTION_ID_INDEX]) {
                         set[1] = taskStep;
                     }
                 }
@@ -38,20 +45,20 @@ public class GetTimeToSchedule implements Function<Tuple2<Long, Iterable<Instanc
         }
 
         pairs.sort(new SubsetComparator());
-        InstanceSubset submit = pairs.get(0)[0];
+        long[] submit = pairs.get(0)[0];
         
         try {
-            InstanceSubset schedule = pairs.get(0)[1];
-            return Optional.of(schedule.time() - submit.time());
+            long[] schedule = pairs.get(0)[1];
+            return Optional.of(schedule[TIME_INDEX] - submit[TIME_INDEX]);
         } catch (Exception e) {
             return Optional.empty();
         }
     }
 
-    class SubsetComparator implements Comparator<InstanceSubset[]> {
-        public int compare(InstanceSubset[] as, InstanceSubset[] bs) {
-            long a = as[0].time();
-            long b = bs[0].time();
+    class SubsetComparator implements Comparator<long[][]> {
+        public int compare(long[][] as, long[][] bs) {
+            long a = as[0][TIME_INDEX];
+            long b = bs[0][TIME_INDEX];
             if (a < b) return -1;
             else if (a == b) return 0;
             return 1;

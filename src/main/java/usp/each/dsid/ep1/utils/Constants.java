@@ -3,8 +3,8 @@ package usp.each.dsid.ep1.utils;
 public class Constants {
     public final static String COLLECTIONS_SAMPLES_FILE_PATH = "gs://borg-traces/sample-traces/collection_events/*";
     public final static String INSTANCES_SAMPLES_FILE_PATH = "gs://borg-traces/sample-traces/instance_events/*";
-    public final static String COLLECTIONS_FILE_PATH = "gs://borg-traces/google-traces/collection_events/*";
-    public final static String INSTANCES_FILE_PATH = "gs://borg-traces/google-traces/instance_events/*";
+    public final static String COLLECTIONS_FILE_PATH = "/tmp/ep1-dsid/traces-dir/google-traces/collection_events/*";
+    public final static String INSTANCES_FILE_PATH = "/tmp/ep1-dsid/traces-dir/google-traces/instance_events/*";
     public final static String INSTANCE_HEADER = "time,type,collection_id,priority,instance_index,resource_request.cpus,resource_request.memory";
     public final static String INSTANCE_SCHEMA = "time STRING, "
             + "type STRING, "

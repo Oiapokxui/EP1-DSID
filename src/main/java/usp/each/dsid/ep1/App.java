@@ -17,6 +17,14 @@ public class App implements CommandLineRunner {
 
     @Autowired Problem1 problem1;
 
+    @Autowired Problem2 problem2;
+
+    @Autowired Problem3 problem3;
+
+    @Autowired Problem4 problem4;
+
+    @Autowired Problem5 problem5;
+
     public static void main(final String[] args) {
         final SpringApplication application = new SpringApplication(App.class);
         application.setWebApplicationType(WebApplicationType.NONE);
@@ -24,6 +32,6 @@ public class App implements CommandLineRunner {
     }
 
     @Override public void run(final String[] args) {
-        problem1.run();
+        problem2.run();
     }
 }

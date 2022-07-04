@@ -1,25 +1,51 @@
-# Configurando ambiente para ler do Google Cloud Storage
+# Primeiros passos (Deve ser executado em cada máquina que possivelmente rodará spark)
 
-Coloque a sua chave json do projeto no Google Cloud no arquivo `/tmp/ep1-dsid/key.json`
-Baixe o zip do spark, extraia na raiz do projeto.
-Edite a variável `SPARK_HOME` no script `gcs` para o caminho da pasta do spark extraída.
-Execute o script `gcs` de maneira global: `. ./gcs`
-Copie o arquivo `spark-defaults.conf` para a pasta `$SPARK_HOME/conf`.
-Copie o arquivo `log4j2.properties` para a pasta `$SPARK_HOME/conf`.
-Baixe o jar do Google Storage Connector e o coloque na pasta `$SPARK_HOME/jars`.
+- Baixe o zip do spark, extraia na raiz do projeto.
+- Baixe a pasta com os dados e a disponibilize em `/tmp/ep1-dsid/`
+- Crie uma variável chamada `SPARK_HOME` no seu ambiente cujo valor é caminho da pasta extraída do spark.
+- Copie o arquivo `spark-defaults.conf` para a pasta `$SPARK_HOME/conf`.
+- Copie o arquivo `log4j2.properties` para a pasta `$SPARK_HOME/conf`.
+- Compile a aplicação com:
+    - ```shell 
+  ./gradlew build
 
-# Como rodar
+# Como rodar em cluster standalone
 
-Primeiro, é preciso compilar e construir o jar da aplicação.
+É necessário que todos os nós do cluster estejam na mesma rede
+
+## Como iniciar o nó mestre
 
 ```shell
-./gradlew shadowJar
+$SPARK_HOME/sbin/start-master.sh
 ```
 
-Depois, após inicialização dos nós Master e Worker do cluster, basta rodar o spark-submit, passando a url do master e o uber jar construído:
+## Como iniciar os nós workers
+
+Defina a variável de ambiente `MASTER_URL=spark://<HOST>:7077`, Onde: <HOST> é o nome do host ou seu endereço de IP (o nome deve ser resolvível em um endereço
+de IP para que funcione).
 
 ```shell
-$SPARK_HOME/bin/spark-submit --master <MASTER_URL> --deploy-mode cluster <APP_JAR>
+$SPARK_HOME/sbin/start-worker.sh $MASTER_URL
+```
+
+## Rodando a aplicação
+
+Após inicialização dos nós Master e Worker do cluster, basta rodar o spark-submit em qualquer uma dos nós do cluster, passando a url do master e o jar
+construído (as variáveis de ambiente citadas acima
+devem estar inicializadas):
+
+```shell
+$SPARK_HOME/bin/spark-submit --master $MASTER_URL --deploy-mode client <APP_JAR>
+```
+
+Onde <APP_JAR> é o caminho para o uber jar criado após build do projeto.
+
+# Como rodar em modo local
+
+Defina a variável `MASTER_URL=local[*]` e então execute:
+
+```shell
+./gradlew bootRun
 ```
 
 # Conceitos
@@ -74,8 +100,8 @@ Collections são conjuntos de jobs ou tasks e Instances são unidades de tasks o
 
 1. Analisar os campos `resource_requests` da [tabela de instâncias](#header-da-tabela-de-instncias).
 2. Agrupar por [tipos de prioridade](#tiers-de-prioridade) e fazer análises.
-3. Possível heurística: ordenar pelo campo `time`, pegar o valor mínimo (tirando 0) e o máximo, tirar a diferença, calcular quantas horas isso equivale e criar
+3. Ordenar pelo campo `time`, pegar o valor mínimo (tirando 0) e o máximo, tirar a diferença, calcular quantas horas isso equivale e criar
    um map (long -> long) com essas tantas entradas. A partir disso, para cada entrada na tabela, calcular em qual das horas ela se encaixa (dividir por
    3600_000_000 microssegundos por hora e subtrair pela quantidade de horas do time inicial) e incrementar em um a entrada do map que corresponde àquela hora.
-5. similar, só que em cima da tabela de instances.
+5. Similar, só que em cima da tabela de instances.
 6. Agrupar instancias por collection_id, ordenar por tempo e pegar a primeira entrada do tipo SUBMIT que aparece no grupo.

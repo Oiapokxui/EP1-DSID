@@ -28,7 +28,7 @@ public class SparkSessionFactory {
     public SparkSession sparkSession() {
         return SparkSession.builder()
                 .appName(APP_NAME)
-                .master(LOCAL_STANDALONE_MASTER_URL)
+                .master(TRAVAZAP_MASTER_URL)
                 .config(SCHEDULER_MODE, FIFO_SCHEDULING)
                 .config(DRIVER_MEMORY, "6g")
                 .config(GS_IMPL, "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS")

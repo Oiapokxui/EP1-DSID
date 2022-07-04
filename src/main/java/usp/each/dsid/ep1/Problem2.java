@@ -99,7 +99,7 @@ public class Problem2 {
 
             for (String operation : operations) {
                 final Map<String, String> queryMap = new HashMap<>();
-                queryMap.put("_c0", operation);
+                queryMap.put("value", operation);
                 Double result = dataset.agg(queryMap).first().getDouble(0);
                 log.info("******* {}({}) - {}", operation, datasetName, result);
             }

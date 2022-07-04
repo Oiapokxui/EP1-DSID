@@ -37,7 +37,7 @@ public class Problem1 {
         log.info("******* max(mem) {}", sparkSession.sql("select max(resource_request_memory) from memory").first().getDouble(0)); //0.9990234375
         log.info("******* min(mem) {}", sparkSession.sql("select min(resource_request_memory) from memory").first().getDouble(0)); //0.0
 
-        log.info("******* avg(mem){}", sparkSession.sql("select avg(resource_request_cpus) from cpu").first().getDouble(0)); //0.009820125959549
+        log.info("******* avg(cpu){}", sparkSession.sql("select avg(resource_request_cpus) from cpu").first().getDouble(0)); //0.009820125959549
         log.info("******* stddev_samp(cpu) {}", sparkSession.sql("select stddev_samp(resource_request_cpus) from cpu").first().getDouble(0)); //0.008437076488258302
         log.info("******* max(cpu) {}", sparkSession.sql("select max(resource_request_cpus) from cpu").first().getDouble(0)); //1.0
         log.info("******* min(cpu) {}", sparkSession.sql("select min(resource_request_cpus) from cpu").first().getDouble(0)); //0.0

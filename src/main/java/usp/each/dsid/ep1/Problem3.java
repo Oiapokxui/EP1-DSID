@@ -4,9 +4,6 @@ import static usp.each.dsid.ep1.utils.Constants.COLLECTIONS_FILE_PATH;
 import static usp.each.dsid.ep1.utils.Constants.COLLECTION_HEADER;
 import static usp.each.dsid.ep1.utils.Constants.ONE_HOUR_IN_MICROSECONDS;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.SparkSession;
@@ -44,11 +41,6 @@ public class Problem3 {
         final int hours = max - min;
         final Long jobCount = timeRdd.count();
         final Double avg = jobCount / (double)hours;
-        final ConcurrentMap<Integer, Integer> hoursMap = new ConcurrentHashMap(hours);
-        timeRdd.collect().forEach(time -> {
-            final int val = hoursMap.getOrDefault(time, 0);
-            hoursMap.put(time, val + 1);
-        });
         final Long elapsedTime = System.currentTimeMillis() - startTime;
 
         log.info("******* PROBLEM3");
@@ -56,11 +48,8 @@ public class Problem3 {
         log.info("******* Min timestamp: {}", min);
         log.info("******* Total hours: {}", hours);
         log.info("******* avg jobs per hour: {}", avg);
-        for(int hour = 1; hour <= hours; hour++) {
-            log.info("******* [Hour, Count]: [{}, {}]", hour, hoursMap.getOrDefault(hour, 0));
-            log.info("******* [Hour, Count]: [{}, {}]", hour, hoursMap.getOrDefault(hour, 0));
-        }
-        hoursMap.forEach((hour, hourCount) -> System.out.println());
+        log.info("******* Hours:\n[");
+        timeRdd.collect().forEach(time -> log.info("{}, ", time));
         log.info("******* Took {} ms to calculate", elapsedTime);
     }
 }
